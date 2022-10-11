@@ -11,7 +11,7 @@
    </rect>
   </property>
   <property name="windowTitle">
-   <string>多边形：边标志多边形填充算法</string>
+   <string>多边形：种子填充算法</string>
   </property>
   <widget class="QWidget" name="centralwidget">
    <widget class="QGroupBox" name="groupBox_set">
@@ -798,7 +798,7 @@
      <x>0</x>
      <y>0</y>
      <width>979</width>
-     <height>21</height>
+     <height>25</height>
     </rect>
    </property>
   </widget>

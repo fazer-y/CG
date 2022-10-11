@@ -85,15 +85,13 @@ void polygon::showPolygonInSeed(QPainter* ptr)
 {
     if(!isInPolygon(seed) || (points.size() < 3))
         return;
-    ptr->save();
-    ptr->setPen(color);
 
     // 获取多边形最小包围盒
     int maxX, minX, maxY, minY;
-    maxX = getMaxX();
-    minX = getMinX();
-    maxY = getMaxY();
-    minY = getMinY();
+    maxX = getMaxX()+1;
+    minX = getMinX()-1;
+    maxY = getMaxY()+1;
+    minY = getMinY()-1;
 
     if(seed.x() <= minX || seed.x() >= maxX
             || seed.y() <= minY || seed.y() >= maxY)
@@ -234,7 +232,7 @@ void polygon::showPolygonInSeed(QPainter* ptr)
         // 左上
         p0.setX(ps.x()-1);
         p0.setY(ps.y()+1);
-        if(!MF[p0.y()-minY][p0.x()-minX])
+        if(!MF[p0.y()-minY][p0.x()-minX] && isInPolygon(p0))
         {
             stack.push(p0);
             MF[p0.y()-minY][p0.x()-minX] = true;
@@ -243,7 +241,7 @@ void polygon::showPolygonInSeed(QPainter* ptr)
         // 上
         p0.setX(ps.x());
         p0.setY(ps.y()+1);
-        if(!MF[p0.y()-minY][p0.x()-minX])
+        if(!MF[p0.y()-minY][p0.x()-minX] && isInPolygon(p0))
         {
             stack.push(p0);
             MF[p0.y()-minY][p0.x()-minX] = true;
@@ -252,7 +250,7 @@ void polygon::showPolygonInSeed(QPainter* ptr)
         // 右上
         p0.setX(ps.x()+1);
         p0.setY(ps.y()+1);
-        if(!MF[p0.y()-minY][p0.x()-minX])
+        if(!MF[p0.y()-minY][p0.x()-minX] && isInPolygon(p0))
         {
             stack.push(p0);
             MF[p0.y()-minY][p0.x()-minX] = true;
@@ -261,7 +259,7 @@ void polygon::showPolygonInSeed(QPainter* ptr)
         // 左
         p0.setX(ps.x()-1);
         p0.setY(ps.y());
-        if(!MF[p0.y()-minY][p0.x()-minX])
+        if(!MF[p0.y()-minY][p0.x()-minX] && isInPolygon(p0))
         {
             stack.push(p0);
             MF[p0.y()-minY][p0.x()-minX] = true;
@@ -270,7 +268,7 @@ void polygon::showPolygonInSeed(QPainter* ptr)
         // 右
         p0.setX(ps.x()+1);
         p0.setY(ps.y());
-        if(!MF[p0.y()-minY][p0.x()-minX])
+        if(!MF[p0.y()-minY][p0.x()-minX] && isInPolygon(p0))
         {
             stack.push(p0);
             MF[p0.y()-minY][p0.x()-minX] = true;
@@ -279,7 +277,7 @@ void polygon::showPolygonInSeed(QPainter* ptr)
         // 左下
         p0.setX(ps.x()-1);
         p0.setY(ps.y()-1);
-        if(!MF[p0.y()-minY][p0.x()-minX])
+        if(!MF[p0.y()-minY][p0.x()-minX] && isInPolygon(p0))
         {
             stack.push(p0);
             MF[p0.y()-minY][p0.x()-minX] = true;
@@ -288,7 +286,7 @@ void polygon::showPolygonInSeed(QPainter* ptr)
         // 下
         p0.setX(ps.x());
         p0.setY(ps.y()-1);
-        if(!MF[p0.y()-minY][p0.x()-minX])
+        if(!MF[p0.y()-minY][p0.x()-minX] && isInPolygon(p0))
         {
             stack.push(p0);
             MF[p0.y()-minY][p0.x()-minX] = true;
@@ -297,7 +295,7 @@ void polygon::showPolygonInSeed(QPainter* ptr)
         // 右下
         p0.setX(ps.x()+1);
         p0.setY(ps.y()-1);
-        if(!MF[p0.y()-minY][p0.x()-minX])
+        if(!MF[p0.y()-minY][p0.x()-minX] && isInPolygon(p0))
         {
             stack.push(p0);
             MF[p0.y()-minY][p0.x()-minX] = true;
