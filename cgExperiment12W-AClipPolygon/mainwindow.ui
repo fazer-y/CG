@@ -7,7 +7,7 @@
     <x>0</x>
     <y>0</y>
     <width>1343</width>
-    <height>565</height>
+    <height>561</height>
    </rect>
   </property>
   <property name="windowTitle">
@@ -20,7 +20,7 @@
       <x>610</x>
       <y>10</y>
       <width>731</width>
-      <height>511</height>
+      <height>501</height>
      </rect>
     </property>
     <property name="title">
@@ -229,7 +229,7 @@
       </property>
      </widget>
     </widget>
-    <widget class="QPushButton" name="pushButton_color">
+    <widget class="QPushButton" name="pushButton_color_old">
      <property name="geometry">
       <rect>
        <x>220</x>
@@ -446,7 +446,7 @@
       <enum>QFrame::Sunken</enum>
      </property>
     </widget>
-    <widget class="QPushButton" name="pushButton_color_3">
+    <widget class="QPushButton" name="pushButton_color_new">
      <property name="geometry">
       <rect>
        <x>580</x>
@@ -985,7 +985,7 @@
       </rect>
      </property>
      <property name="title">
-      <string>裁剪多窗口参数</string>
+      <string>裁剪窗口参数</string>
      </property>
      <widget class="QLabel" name="label_4">
       <property name="geometry">
@@ -1499,7 +1499,7 @@
      <x>0</x>
      <y>0</y>
      <width>1343</width>
-     <height>21</height>
+     <height>25</height>
     </rect>
    </property>
   </widget>
