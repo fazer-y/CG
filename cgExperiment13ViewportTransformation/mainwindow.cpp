@@ -69,24 +69,188 @@ MainWindow::~MainWindow()
 
 void MainWindow::on_spinBox_ww_valueChanged(int arg1)
 {
-
+    winRect.setWidth(arg1);
+    clip();
+    update();
 }
 
 
 void MainWindow::on_spinBox_wh_valueChanged(int arg1)
 {
-
+    winRect.setHeight(arg1);
+    clip();
+    update();
 }
 
 
 void MainWindow::on_spinBox_vw_valueChanged(int arg1)
 {
-
+    viewRect.setWidth(arg1);
+    clip();
+    update();
 }
 
 
 void MainWindow::on_spinBox_vh_valueChanged(int arg1)
 {
-
+    viewRect.setHeight(arg1);
+    clip();
+    update();
 }
+
+void MainWindow::clip()
+{
+    QRect wr;
+    double sx = static_cast<double>(viewRect.width())/winRect.width();
+    double sy = static_cast<double>(viewRect.height())/winRect.height();
+    int dx = viewRect.x() - winRect.x();
+    int dy = viewRect.y() - winRect.y();
+    int xMin, yMin, uMin, vMin;
+    for(int i = 0; i < wldFigs.length(); i++)
+    {
+        wr = wldFigs[i].intersected(winRect);
+        // 当前矩形与窗口求交运算，得到裁剪后的矩形
+        xMin = wr.x() - winRect.x();
+        // 当前矩形左上角相对于窗口左上角x坐标
+        yMin = wr.y() - winRect.y();
+        // 当前矩形左上角相对于窗口左上角y坐标
+        uMin = sx*xMin;  // 当前矩形左上角相对于视口左上角x坐标
+        vMin = sy*yMin;  // 当前矩形左上角相对于视口左上角y坐标
+
+        wr.translate(-xMin, -yMin);  // 平移至窗口左上角
+        wr.setWidth(sx*wr.width());  // 沿着x方向的缩放变换
+        wr.setHeight(sy*wr.height());  // 沿着y方向的放缩变换
+        wr.translate(dx, dy);  // 平移至视口左下角
+        wr.translate(uMin, vMin);  // 平移至视口对应位置
+        scrFigs[i] = wr;
+    }
+}
+
+void MainWindow::drawRect(QPainter* ptr, QRect rect, QColor clr)
+{
+    ptr->save();
+    ptr->setPen(clr);
+    ptr->drawRect(rect);
+    ptr->restore();
+}
+
+void MainWindow::paintEvent(QPaintEvent*)
+{
+    QPainter* ptr = new QPainter(this);
+
+    // 对窗口中的图形进行裁剪，并变换到视口中
+    // 生成视口中的图形数据
+    // wldFigs -> scrFigs
+    clip();
+
+    // 显示标题
+    double x, y, w, h;
+    x = width()/2 - 50.0;
+    y = 80.0;
+    w = 120.0;
+    h = 20;
+    ptr->save();
+    ptr->setPen(Qt::red);
+    ptr->drawText(QRectF(x, y, w, h), Qt::AlignCenter, tr("窗口到视口的变换"));
+    ptr->restore();
+
+    // 处理世界坐标系
+    ptr->save();
+    ptr->setPen(Qt::blue);
+    x = wldRect.x() + wldRect.width()/2 - 20.0;
+    y = wldRect.y() + 10.0;
+    w = 40.0;
+    ptr->drawText(QRectF(x, y, w, h), Qt::AlignCenter, tr("窗口"));
+    ptr->setPen(Qt::green);
+    x = wldRect.x() + wldRect.width()/2 - 30.0;
+    y = wldRect.y() + wldRect.height() - 30.0;
+    w = 80.0;
+    ptr->drawText(QRectF(x, y, w, h), Qt::AlignCenter, tr("世界坐标系"));
+    ptr->restore();
+
+
+    // 处理屏幕坐标系
+    ptr->save();
+    ptr->setPen(Qt::blue);
+    x = scrRect.x() + scrRect.width()/2 - 20.0;
+    y = scrRect.y() + 10.0;
+    w = 40.0;
+    ptr->drawText(QRectF(x, y, w, h), Qt::AlignCenter, tr("视口"));
+    ptr->setPen(Qt::green);
+    x = scrRect.x() + scrRect.width()/2 - 30.0;
+    y = scrRect.y() + scrRect.height() - 30.0;
+    w = 80.0;
+    ptr->drawText(QRectF(x, y, w, h), Qt::AlignCenter, tr("屏幕坐标系"));
+    ptr->restore();
+
+    // 绘制世界坐标系图形
+    drawRect(ptr, wldRect, Qt::green);
+    drawRect(ptr, wldFigs[0], Qt::black);
+    drawRect(ptr, wldFigs[1], Qt::black);
+    drawRect(ptr, wldFigs[2], Qt::black);
+    drawRect(ptr, wldFigs[3], Qt::black);
+    drawRect(ptr, winRect, Qt::blue);
+
+    // 绘制屏幕坐标系图形
+    drawRect(ptr, scrRect, Qt::green);
+    drawRect(ptr, scrFigs[0], Qt::black);
+    drawRect(ptr, scrFigs[1], Qt::black);
+    drawRect(ptr, scrFigs[2], Qt::black);
+    drawRect(ptr, scrFigs[3], Qt::black);
+    drawRect(ptr, viewRect, Qt::blue);
+
+    delete ptr;
+}
+
+void MainWindow::mousePressEvent(QMouseEvent* event)
+{
+    QCursor csr;
+    if(event->button() == Qt::LeftButton)
+    {
+        csr.setShape(Qt::ClosedHandCursor);
+        QApplication::setOverrideCursor(csr);
+        oldPos = event->pos();
+        if(winRect.contains(event->pos()))
+        {
+            isInWindow = true;
+        }
+        else
+        {
+            isInWindow = false;
+        }
+
+
+        if(viewRect.contains(event->pos()))
+        {
+            isInView = true;
+        }
+        else
+        {
+            isInView = false;
+        }
+    }
+}
+
+void MainWindow::mouseMoveEvent(QMouseEvent* event)
+{
+    QPoint newPos = event->pos();
+
+    if(isInWindow)
+    {
+        winRect.translate(newPos.x() - oldPos.x(), newPos.y() - oldPos.y());
+    }
+    if(isInView)
+    {
+        viewRect.translate(newPos.x() - oldPos.x(), newPos.y() - oldPos.y());
+    }
+    oldPos = newPos;
+    update();
+}
+
+void MainWindow::mouseReleaseEvemt(QMouseEvent* event)
+{
+    Q_UNUSED(event);
+    QApplication::restoreOverrideCursor();
+}
+
 

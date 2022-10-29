@@ -20,7 +20,7 @@ public:
     MainWindow(QWidget *parent = nullptr);
     ~MainWindow();
     void clip();
-    void drawRect(QPainter* p, QRect rect, QColor clr);
+    void drawRect(QPainter* ptr, QRect rect, QColor clr);
     void paintEvent(QPaintEvent*);
     void mousePressEvent(QMouseEvent* event);
     void mouseMoveEvent(QMouseEvent* event);
