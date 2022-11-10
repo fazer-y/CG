@@ -269,7 +269,7 @@
        <string>n：</string>
       </property>
      </widget>
-     <widget class="QLineEdit" name="lineEdit_u">
+     <widget class="QLineEdit" name="lineEdit_prpu">
       <property name="geometry">
        <rect>
         <x>30</x>
@@ -305,7 +305,7 @@
        <string>v：</string>
       </property>
      </widget>
-     <widget class="QLineEdit" name="lineEdit_v">
+     <widget class="QLineEdit" name="lineEdit_prpv">
       <property name="geometry">
        <rect>
         <x>130</x>
@@ -315,7 +315,7 @@
        </rect>
       </property>
      </widget>
-     <widget class="QLineEdit" name="lineEdit_n">
+     <widget class="QLineEdit" name="lineEdit_prpn">
       <property name="geometry">
        <rect>
         <x>230</x>
@@ -434,7 +434,7 @@
      <x>0</x>
      <y>0</y>
      <width>1000</width>
-     <height>21</height>
+     <height>25</height>
     </rect>
    </property>
   </widget>

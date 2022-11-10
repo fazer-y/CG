@@ -5,6 +5,7 @@
 #include <QPoint>
 #include <QRectF>
 #include <QString>
+#include <complex>
 
 const double PI = 3.1415926;
 
