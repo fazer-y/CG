@@ -1,2 +1,7 @@
 *.pro.user
-bulid*-Debug/
+bulid*/
+*.o
+*.Release
+*.stash
+*.Debug
+*.json
