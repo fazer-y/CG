@@ -26,7 +26,6 @@ MainWindow::~MainWindow()
 
 void MainWindow::paintEvent(QPaintEvent*)
 {
-    QPainter* ptr = new QPainter(this);
     ui->groupBox_set->setFixedSize(313, height()-20);
     ui->splitter->setFixedSize(width()-318, height()-20);
 }
