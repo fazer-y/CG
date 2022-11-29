@@ -1,4 +1,4 @@
-#include "widget.h"
+﻿#include "widget.h"
 #include "ui_widget.h"
 
 Widget::Widget(QGLWidget *parent) :
@@ -27,7 +27,7 @@ void Widget::paintGL()
     glViewport(0, 0, w, h);
     glMatrixMode(GL_PROJECTION);//选择投影矩阵
     glLoadIdentity();
-    gluPerspective(60,GLfloat(w)/h, 0.1, 100.0);
+    // gluPerspective(60,GLfloat(w)/h, 0.1, 100.0);
     GLfloat fov = 60;//眼睛上下睁开的角度
     GLfloat zNear = 0.1;//前裁剪面
     GLfloat zFar = 100.0;//后裁剪面
