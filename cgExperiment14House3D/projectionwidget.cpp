@@ -3,7 +3,7 @@
 projectionWidget::projectionWidget(QWidget *parent)
     : QWidget{parent}
 {
-    setPalette(QPalette(QColor(254,254,254)));
+    setPalette(QPalette(QColor(251,251,251)));
     setAutoFillBackground(true);
 }
 
